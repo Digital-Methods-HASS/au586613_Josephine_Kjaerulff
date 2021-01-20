@@ -1,0 +1,126 @@
+---
+title: "Crossing The Sea"
+output:
+  pdf_document: default
+  html_document: default
+---
+---
+title: "CDS help"
+output: html_document
+---
+
+First we are going to install the needed packages: 
+
+```{r}
+library(tidyverse)
+library(gganimate)
+library(ggthemes)
+```
+
+Now we are loading the first dataset that we have tidied in Excel: 
+
+```{r}
+library(readr) 
+new <- read_csv2("~/Documents/RStudioCultural DataScience /data/Deaths.csv") #loading the dataset
+new<-new[,1:5] #grapping the five fist columns
+new<-na.omit(new) #removing NA's
+
+
+```
+
+In the following four graphs we are looking at how many people attempts to cross the eastern, western and central route each month. We have made a graph for each year. 
+
+The graph for 2016:
+
+```{r}
+new$month <- factor(new$month, levels = month.name) #arranging months chronologically
+
+new %>% 
+  filter(year == "2016") %>% #using filter to select the year
+  ggplot(aes(x=month,y=attempted,fill=Route))+ #deciding what should be on the x and y axes and what should be the fill
+  geom_bar(stat="identity",position=position_dodge())+ #making it bars
+  scale_fill_economist(labels = c("Central", "Eastern", "Western"))+ #choosing design and names for the filling
+  theme_economist() + 
+  xlab("Months") + #choosing name for x axes
+  ylab("Attempted Crossings")+ #choosing name for y axes
+  ggtitle("Crossings 2016") #choosing tittle
+```
+
+The graph for 2017:
+
+```{r}
+new$month <- factor(new$month, levels = month.name) #arranging months chronologically
+
+new %>% 
+  filter(year == "2017") %>% #using filter to select the year
+  ggplot(aes(x=month,y=attempted,fill=Route))+ #deciding what should be on the x and y axes and what should be the fill
+  geom_bar(stat="identity",position=position_dodge())+ #making it bars
+  scale_fill_economist(labels = c("Central", "Eastern", "Western"))+ #choosing design and names for the filling
+  theme_economist() + 
+  xlab("Months") + #choosing name for x axes
+  ylab("Attempted Crossings")+ #choosing name for y axes
+  ggtitle("Crossings 2017") #choosing tittle
+```
+
+The graph for 2018:
+
+```{r}
+new$month <- factor(new$month, levels = month.name) #arranging months chronologically
+
+new %>% 
+  filter(year == "2018") %>% #using filter to select the year
+  ggplot(aes(x=month,y=attempted,fill=Route))+ #deciding what should be on the x and y axes and what should be the fill
+  geom_bar(stat="identity",position=position_dodge())+ #making it bars
+  scale_fill_economist(labels = c("Central", "Eastern", "Western"))+ #choosing design and names for the filling
+  theme_economist() + 
+  xlab("Months") + #choosing name for x axes
+  ylab("Attempted Crossings")+ #choosing name for y axes
+  ggtitle("Crossings 2018") #choosing tittle
+```
+
+The graph for 2019:
+
+```{r}
+new$month <- factor(new$month, levels = month.name) #arranging months chronologically
+
+new %>% 
+  filter(year == "2019") %>% #using filter to select the year
+  ggplot(aes(x=month,y=attempted,fill=Route))+ #deciding what should be on the x and y axes and what should be the fill
+  geom_bar(stat="identity",position=position_dodge())+ #making it bars
+  scale_fill_economist(labels = c("Central", "Eastern", "Western"))+ #choosing design and names for the filling
+  theme_economist() + 
+  xlab("Months") + #choosing name for x axes
+  ylab("Attempted Crossings")+ #choosing name for y axes
+  ggtitle("Crossings 2019") #choosing tittle
+```
+
+Now we are going to read a new tidied version of the sama dataset. We have made a new dataset so that it was easier for us to look at all of the years in two different graphs. With these we can see the attempted crossings per route in one and how many died on another graph. 
+
+```{r}
+library(readr)
+data <- read_csv2("~/Documents/RStudioCultural DataScience /data/johan_arrivals.csv")
+
+
+data<-data[,1:4] #grapping the four fist columns
+
+data<-na.omit(data) #removing NA's
+
+data$year<-as.factor(data$year) #making year a factor instead of numeric.
+```
+
+
+```{r}
+ggplot(data=data, aes(x=year, y=deaths,fill = route)) + #choosing what should be shown in the graph
+  ggtitle("Deaths in the Mediterrenean") + #choosing title
+  geom_bar(stat="identity", position=position_dodge()) + 
+  theme_economist()+scale_fill_economist()+ #choosing design
+  ylab("Deaths") #name for y axis
+
+ggplot(data=data, aes(x=year, y=total_attempts,fill = route)) + #choosing what should be shown in the graph
+  ggtitle("Attempted Crossings") + #choosing title
+  geom_bar(stat="identity", position=position_dodge()) + 
+  theme_economist()+scale_fill_economist() + #choosing design
+  ylab("Total Attempts") #choosing name for y axis
+```
+
+
